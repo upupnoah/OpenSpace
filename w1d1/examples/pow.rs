@@ -14,8 +14,8 @@ fn main() {
         let result = hasher.finalize();
         let hex_result = format!("{:x}", result); // 将字节序列转换为十六进制字符串
 
-        // 检查是否以四个零开头，且第五个字符不是零
-        if hex_result.starts_with("0000") && !hex_result.starts_with("00000") {
+        // 检查是否以四个零开头
+        if hex_result.starts_with("0000") {
             let duration = Utc::now() - start_time;
             println!(
                 "Time taken for 4 leading zeros: {} ms", // 毫秒
@@ -37,8 +37,8 @@ fn main() {
         let result = hasher.finalize();
         let hex_result = format!("{:x}", result);
 
-        // 检查是否以五个零开头，且第六个字符不是零
-        if hex_result.starts_with("00000") && !hex_result.starts_with("000000") {
+        // 检查是否以五个零开头
+        if hex_result.starts_with("00000") {
             let duration = Utc::now() - start_time_five_zeros;
             println!(
                 "Time taken for 5 leading zeros: {} ms", // 毫秒
