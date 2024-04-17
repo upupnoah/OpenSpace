@@ -15,3 +15,5 @@ Cargo.lock
 
 # Noah files
 draft.rs
+__pycache__
+.DS_Store
