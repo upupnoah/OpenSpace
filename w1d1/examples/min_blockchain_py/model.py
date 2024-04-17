@@ -116,7 +116,6 @@ class Blockchain(object):
         : return: 如果链被取代返回 True, 否则 False
         """
         neighbours = self.nodes
-        print(neighbours)
         new_chain = None
 
         # Grab and verify the chains from all the nodes in our network
