@@ -16,27 +16,37 @@ contract Bank {
         _; // NOTE: 这个是什么意思? 答: 这个是 Solidity 的特殊写法, 表示执行原函数
     }
 
-    function deposit() external payable {
+    function deposit() public payable {
         require(msg.value > 0, "Deposit amount must be greater than 0");
         balances[msg.sender] += msg.value;
         updateTopDepositors(msg.sender);
     }
 
-    // TODO: 如果要在取款的逻辑中维护一个前三的存款人, 需要怎么做? -> 在链上不好做, 需要维护
-    // 1. 需要记录所有的存款人, 以及他们的存款金额
-    // 2. 需要后端逻辑, 在每次存款/取款后, 更新前三的存款人
-    function withdraw(uint amount) public {
+    // 只有管理员可以取款
+    function adminWithdraw(uint amount) public onlyOwner {
+        require(address(this).balance >= amount, "Insufficient balance");
+        payable(owner).transfer(amount);
+    }
+
+    function userWithdraw(uint amount) public {
         require(balances[msg.sender] >= amount, "Insufficient balance");
         balances[msg.sender] -= amount;
         payable(msg.sender).transfer(amount);
-        updateTopDepositors(msg.sender);
+        // updateTopDepositors(msg.sender);
     }
 
     // NOTE: 这是特殊的函数, 用于接收以太币, external payable 是固定写法
     // 1. 提供这个函数, 其他用户/合约只需要知道 我的合约地址 就可以向合约转账
     // 2. 没有提供这个函数, 并且也没有提供 fallback 函数, 则合约不能接收 ETH
-    // 这里我实现这个, 是因为我想要别人能够向我的合约转账
-    receive() external payable {}
+    // 包含这个函数的话, 如果用户直接向我合约地址转账, 我也可以接收并处理(存款)
+    receive() external payable {
+        deposit();
+    }
+
+    // default
+    fallback() external {
+        revert("Invalid function call");
+    }
 
     function updateTopDepositors(address depositor) private {
         if (balances[depositor] <= balances[topDepositors[2]]) {
