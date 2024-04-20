@@ -14,7 +14,7 @@ fn main() {
         let result = hasher.finalize();
         let hex_result = format!("{:x}", result); // 将字节序列转换为十六进制字符串
 
-        // 检查是否以四个零开头
+        // 检查是否以四个0开头
         if hex_result.starts_with("0000") {
             let duration = Utc::now() - start_time;
             println!(
