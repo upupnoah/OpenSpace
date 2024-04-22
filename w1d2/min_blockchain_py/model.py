@@ -7,7 +7,7 @@ from urllib.parse import urlparse
 import requests
 
 
-class Blockchain(object):
+class Blockchain:
     def __init__(self):
         self.chain = []  # 区块链
         self.current_transactions = []  # 交易池
