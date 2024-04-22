@@ -21,27 +21,19 @@ contract BigBank is Bank {
     function transferOwner(address newOwner) public onlyOwner {
         owner = newOwner;
     }
-
-    function withdraw() public override onlyOwner {
-        require(address(this).balance > 0, "balance is zero");
-        payable(owner).transfer(address(this).balance);
-    }
-}
-
-// 接口会隐式实现
-interface Own {
-    function withdraw() external;
 }
 
 // 编写一个 Ownable 合约，把 BigBank 的管理员转移给 Ownable 合约，实现只有Ownable 可以调用 BigBank 的 withdraw()
 contract Ownable {
     address owner;
+
     constructor() {
         owner = msg.sender;
     }
-    function withdraw(address bigBankAddress) public {
+
+    function withdraw(address bankAddress) public {
         require(msg.sender == owner, "Only owner can call this function");
-        Own(bigBankAddress).withdraw();
+        IBank(bankAddress).withdraw();
     }
 
     receive() external payable {}

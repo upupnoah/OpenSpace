@@ -1,7 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-contract Bank {
+interface IBank {
+    function withdraw() external;
+}
+
+contract Bank is IBank {
     address public owner;
     mapping(address => uint256) public balances;
     address[3] public topDepositors;
@@ -21,20 +25,7 @@ contract Bank {
         balances[msg.sender] += msg.value;
         updateTopDepositors(msg.sender);
     }
-
-    // 只有管理员可以取款
-    // function adminWithdraw(uint amount) public onlyOwner {
-    //     require(address(this).balance >= amount, "Insufficient balance");
-    //     payable(owner).transfer(amount);
-    // }
-
-    // function userWithdraw(uint amount) public {
-    //     require(balances[msg.sender] >= amount, "Insufficient balance");
-    //     balances[msg.sender] -= amount;
-    //     payable(msg.sender).transfer(amount);
-    //     // updateTopDepositors(msg.sender);
-    // }
-
+    
     function withdraw() public virtual onlyOwner {
         require(address(this).balance > 0, "balance is zero");
         payable(msg.sender).transfer(address(this).balance);
@@ -59,7 +50,7 @@ contract Bank {
         }
         for (uint i = 0; i < 3; i++) {
             if (topDepositors[i] == depositor) {
-                return;
+                return;0
             }
         }
         topDepositors[2] = depositor;
