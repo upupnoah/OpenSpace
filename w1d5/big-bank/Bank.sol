@@ -25,7 +25,7 @@ contract Bank is IBank {
         balances[msg.sender] += msg.value;
         updateTopDepositors(msg.sender);
     }
-    
+
     function withdraw() public virtual onlyOwner {
         require(address(this).balance > 0, "balance is zero");
         payable(msg.sender).transfer(address(this).balance);
@@ -54,6 +54,8 @@ contract Bank is IBank {
             }
         }
         topDepositors[2] = depositor;
+
+        // start sort
         bool swap = false;
         for (uint i = 0; i < 3; i++) {
             for (uint j = 1; j < 3 - i; j++) {
