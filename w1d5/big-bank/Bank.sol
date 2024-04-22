@@ -56,7 +56,7 @@ contract Bank is IBank {
         topDepositors[2] = depositor;
 
         // start sort
-        bool swap = false;
+        bool swap = false; // 空间是在内存中的, 因此可以进行优化
         for (uint i = 0; i < 3; i++) {
             for (uint j = 1; j < 3 - i; j++) {
                 if (
