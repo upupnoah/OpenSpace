@@ -20,7 +20,7 @@ fn main() {
             println!(
                 "Time taken for 4 leading zeros: {} ms", // 毫秒
                 duration.num_milliseconds()
-            );
+            ); 
             println!("Hash content: {}", data);
             println!("Hash value: {}", hex_result);
             break;
