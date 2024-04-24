@@ -50,7 +50,7 @@ contract Bank is IBank {
         }
         for (uint i = 0; i < 3; i++) {
             if (topDepositors[i] == depositor) {
-                return;0
+                return;
             }
         }
         topDepositors[2] = depositor;
