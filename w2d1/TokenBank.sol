@@ -25,8 +25,8 @@ interface IERC20 {
 contract TokenBank {
     mapping(address => mapping(address => uint256)) deposits; // 维护每个用户存的各种 token 数量
 
-    event Deposited(address indexed user, uint256 amount);
-    event Withdrawn(address indexed user, uint256 amount);
+    event Deposited(address indexed user, address token, uint256 amount);
+    event Withdrawn(address indexed user, address token, uint256 amount);
 
     function deposit(address _tokenAddr, uint256 _amount) public {
         require(
@@ -34,7 +34,7 @@ contract TokenBank {
             "TokenBank: transfer failed"
         );
         deposits[msg.sender][_tokenAddr] += _amount;
-        emit Deposited(msg.sender, _amount);
+        emit Deposited(msg.sender, _tokenAddr, _amount);
     }
 
     function withdraw(address _tokenAddr, uint256 _amount) public {
@@ -47,6 +47,6 @@ contract TokenBank {
             "TokenBank: transfer failed"
         );
         deposits[msg.sender][_tokenAddr] -= _amount;
-        emit Withdrawn(msg.sender, _amount);
+        emit Withdrawn(msg.sender, _tokenAddr, _amount);
     }
 }
