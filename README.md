@@ -23,7 +23,7 @@
 - [x] ERC20 token contract
 - [x] TokenBank
 
-### w2d2
+### w2d2 & w2d3
 - [x] ERC721 token contract (NFT)
 - [x] NFT Market
 - [] 扩展 ERC20 合约，使其具备在转账的时候，如果目标地址是合约的话，调用目标地址的 tokensReceived() 方法
