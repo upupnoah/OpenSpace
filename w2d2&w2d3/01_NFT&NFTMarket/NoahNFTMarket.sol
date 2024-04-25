@@ -46,7 +46,7 @@ contract NoahNFTMarket is IERC721Receiver {
             tokenIdPrice[tokenId]
         );
         // 从我(当前合约) 这里搞 NFT Token(by tokenID) 给 msg.sender
-        IERC721(nftToken).transferFrom(address(this), msg.sender, tokenId);
+        IERC721(nftToken).safeTransferFrom(address(this), msg.sender, tokenId);
 
         emit Purchase(tokenId, msg.sender);
     }
