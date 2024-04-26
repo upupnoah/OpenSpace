@@ -53,17 +53,18 @@ contract NoahNFTMarket is IERC721Receiver, ITokenReceiver {
 
     function tokenReceived(
         address operator, // 这是买家
-        address from, // 这个其实是我的合约地址
+        address, // 这个其实是我的合约地址
         uint256 value,
         bytes calldata data
     ) external returns (bool) {
         // By QiGe: 扩展性更强的方式
         // data: [header, content ] => header: if type == 1 then decode
+        require(msg.sender == token, "Only accept token");
         uint256 tokenId = abi.decode(data, (uint256));
         require(tokenIdPrice[tokenId] == value, "Price not match");
         require(IERC721(nftToken).ownerOf(tokenId) == address(this), "aleady selled");
-        // 打钱给卖家, 先不考虑我的手续费
-        require(IERC20(token).transferFrom(from, tokenSeller[tokenId], value), "Token transfer failed");
+        // 打钱给卖家, 先不考虑我的手续费, 直接 transfer 即可
+        require(IERC20(token).transfer(tokenSeller[tokenId], value), "Token transfer failed");
         // 将 NFT 从我这里给到买家
         IERC721(nftToken).safeTransferFrom(address(this), operator, tokenId);
 
