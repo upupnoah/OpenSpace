@@ -23,10 +23,10 @@ contract NoahNFT is ERC721URIStorage {
 
     constructor() ERC721("NoahNFT", "Noah_0x3F") {}
 
-    function mint(address to, string memory tokenURI) public returns (uint256) {
+    function mint(address to, string memory tokenURI_) public returns (uint256) {
         uint256 newItemId = _tokenIds;
         _mint(to, newItemId);
-        _setTokenURI(newItemId, tokenURI);
+        _setTokenURI(newItemId, tokenURI_);
 
         _tokenIds++;
         return newItemId;

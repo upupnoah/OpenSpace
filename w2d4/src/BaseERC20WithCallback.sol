@@ -4,12 +4,9 @@ pragma solidity ^0.8.25;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 interface ITokenReceiver {
-    function tokenReceived(
-        address operator,
-        address from,
-        uint256 value,
-        bytes calldata data
-    ) external returns (bool);
+    function tokenReceived(address operator, address from, uint256 value, bytes calldata data)
+        external
+        returns (bool);
 }
 
 contract ERC20WithCallback is ERC20 {
@@ -106,22 +103,10 @@ contract ERC20WithCallback is ERC20 {
     // 最终方案: 不修改原有 transfer 的逻辑, 新增一个 transferWithCallback 方法
     // 显式告诉用户, 这个方法是用来转账给合约的, 并且会调用 tokensReceived 方法
     // 对于购买 NFT, 无非就是需要一个 NFT 的 TokenID, 可以通过 _data 传入
-    function transferWithCallback(
-        address _to,
-        uint256 _value,
-        bytes calldata _data
-    ) public returns (bool success) {
+    function transferWithCallback(address _to, uint256 _value, bytes calldata _data) public returns (bool success) {
         transfer(_to, _value);
         if (isContract(_to)) {
-            require(
-                ITokenReceiver(_to).tokenReceived(
-                    msg.sender,
-                    _to,
-                    _value,
-                    _data
-                ),
-                "No tokensReceived"
-            );
+            require(ITokenReceiver(_to).tokenReceived(msg.sender, _to, _value, _data), "No tokensReceived");
         }
         return true;
     }

@@ -14,23 +14,14 @@ contract TokenBank {
     event Withdrawn(address indexed user, address token, uint256 amount);
 
     function deposit(address _tokenAddr, uint256 _amount) public {
-        require(
-            IERC20(_tokenAddr).transferFrom(msg.sender, address(this), _amount),
-            "TokenBank: transfer failed"
-        );
+        require(IERC20(_tokenAddr).transferFrom(msg.sender, address(this), _amount), "TokenBank: transfer failed");
         deposits[msg.sender][_tokenAddr] += _amount;
         emit Deposited(msg.sender, _tokenAddr, _amount);
     }
 
     function withdraw(address _tokenAddr, uint256 _amount) public {
-        require(
-            deposits[msg.sender][_tokenAddr] >= _amount,
-            "TokenBank: insufficient balance"
-        );
-        require(
-            IERC20(_tokenAddr).transfer(msg.sender, _amount),
-            "TokenBank: transfer failed"
-        );
+        require(deposits[msg.sender][_tokenAddr] >= _amount, "TokenBank: insufficient balance");
+        require(IERC20(_tokenAddr).transfer(msg.sender, _amount), "TokenBank: transfer failed");
         deposits[msg.sender][_tokenAddr] -= _amount;
         emit Withdrawn(msg.sender, _tokenAddr, _amount);
     }
@@ -49,12 +40,7 @@ contract TokenBank {
 
     // 最终方案
     // tokenReceived, 用于在 BaseERC20 中调用 transferWithCallback 的回调(用于记账)
-    function tokenReceived(
-        address operator,
-        address from,
-        uint256 value,
-        bytes calldata
-    ) external returns (bool) {
+    function tokenReceived(address operator, address from, uint256 value, bytes calldata) external returns (bool) {
         deposits[operator][msg.sender] += value;
         emit Deposited(from, msg.sender, value);
         return true;

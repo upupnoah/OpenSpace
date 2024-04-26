@@ -48,7 +48,7 @@ contract Bank is IBank {
         if (balances[depositor] <= balances[topDepositors[2]]) {
             return;
         }
-        for (uint i = 0; i < 3; i++) {
+        for (uint256 i = 0; i < 3; i++) {
             if (topDepositors[i] == depositor) {
                 return;
             }
@@ -57,11 +57,9 @@ contract Bank is IBank {
 
         // start sort
         bool swap = false; // 空间是在内存中的, 因此可以进行优化
-        for (uint i = 0; i < 3; i++) {
-            for (uint j = 1; j < 3 - i; j++) {
-                if (
-                    balances[topDepositors[j - 1]] < balances[topDepositors[j]]
-                ) {
+        for (uint256 i = 0; i < 3; i++) {
+            for (uint256 j = 1; j < 3 - i; j++) {
+                if (balances[topDepositors[j - 1]] < balances[topDepositors[j]]) {
                     address temp = topDepositors[j - 1];
                     topDepositors[j - 1] = topDepositors[j];
                     topDepositors[j] = temp;

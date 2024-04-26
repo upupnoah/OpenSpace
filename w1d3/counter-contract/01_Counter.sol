@@ -10,18 +10,17 @@ pragma solidity ^0.8.4;
 // function <function name>(<parameter types>) {internal|external|public|private} [pure|view|payable] [returns (<return types>)]
 
 contract Counter {
-    uint public counter = 0;
+    uint256 public counter = 0;
 
     constructor() {
         counter = 0;
     }
 
-
-    function add(uint x) public {
+    function add(uint256 x) public {
         counter += x;
     }
 
-    function get() public view returns (uint) {
+    function get() public view returns (uint256) {
         return counter;
     }
 }

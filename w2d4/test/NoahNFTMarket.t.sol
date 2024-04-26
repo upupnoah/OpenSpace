@@ -15,7 +15,7 @@ contract MockERC20 is ERC20 {
 contract MockERC721 is ERC721 {
     constructor() ERC721("Mock NFT", "MNFT") {}
 
-    function mint(address to, uint tokenId) public {
+    function mint(address to, uint256 tokenId) public {
         _mint(to, tokenId);
     }
 }

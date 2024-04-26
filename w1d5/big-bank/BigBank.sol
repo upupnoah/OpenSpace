@@ -6,10 +6,7 @@ import "./Bank.sol";
 contract BigBank is Bank {
     // 要求存款金额 >0.001 ether
     modifier validDeposit() {
-        require(
-            msg.value >= 0.001 ether,
-            "Deposit amount must be greater than 0.001 ether"
-        );
+        require(msg.value >= 0.001 ether, "Deposit amount must be greater than 0.001 ether");
         _;
     }
 

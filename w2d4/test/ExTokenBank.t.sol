@@ -47,10 +47,7 @@ contract TokenTest is Test {
         vm.stopPrank();
 
         // Check the user's deposit balance after withdrawal
-        assertEq(
-            bank.deposits(address(user), address(token)),
-            depositAmount - withdrawAmount
-        );
+        assertEq(bank.deposits(address(user), address(token)), depositAmount - withdrawAmount);
     }
 
     function testTransferWithCallback() public {

@@ -8,39 +8,27 @@ import "@openzeppelin/contracts/interfaces/IERC1820Registry.sol";
 // 扩展版本的 TokenBank, 使用 ERC20Callback 实现转账回调实现存款(直接记账, 而不需要先 Approve, 然后在 Bank 中调用 transferFrom)
 
 interface ITokenReceiver {
-    function tokenReceived(
-        address operator,
-        address from,
-        uint256 value,
-        bytes calldata data
-    ) external returns (bool);
+    function tokenReceived(address operator, address from, uint256 value, bytes calldata data)
+        external
+        returns (bool);
 }
 
 // 可以存我自己所有的 ERC20 Token
 contract TokenBank is ITokenReceiver {
-    mapping(address => mapping(address => uint256)) deposits; // 维护每个用户存的各种 token 数量
+    mapping(address => mapping(address => uint256)) deposits;
 
     event Deposited(address indexed user, address token, uint256 amount);
     event Withdrawn(address indexed user, address token, uint256 amount);
 
     function deposit(address _tokenAddr, uint256 _amount) public {
-        require(
-            IERC20(_tokenAddr).transferFrom(msg.sender, address(this), _amount),
-            "TokenBank: transfer failed"
-        );
+        require(IERC20(_tokenAddr).transferFrom(msg.sender, address(this), _amount), "TokenBank: transfer failed");
         deposits[msg.sender][_tokenAddr] += _amount;
         emit Deposited(msg.sender, _tokenAddr, _amount);
     }
 
     function withdraw(address _tokenAddr, uint256 _amount) public {
-        require(
-            deposits[msg.sender][_tokenAddr] >= _amount,
-            "TokenBank: insufficient balance"
-        );
-        require(
-            IERC20(_tokenAddr).transfer(msg.sender, _amount),
-            "TokenBank: transfer failed"
-        );
+        require(deposits[msg.sender][_tokenAddr] >= _amount, "TokenBank: insufficient balance");
+        require(IERC20(_tokenAddr).transfer(msg.sender, _amount), "TokenBank: transfer failed");
         deposits[msg.sender][_tokenAddr] -= _amount;
         emit Withdrawn(msg.sender, _tokenAddr, _amount);
     }
@@ -59,13 +47,8 @@ contract TokenBank is ITokenReceiver {
 
     // 最终方案
     // tokenReceived, 用于在 BaseERC20 中调用 transferWithCallback 的回调(用于记账)
-    function tokenReceived(
-        address operator,
-        address from,
-        uint256 value,
-        bytes calldata data
-    ) external returns (bool) {
-        deposits[from][msg.sender] += value;
+    function tokenReceived(address operator, address from, uint256 value, bytes calldata) external returns (bool) {
+        deposits[operator][msg.sender] += value;
         emit Deposited(from, msg.sender, value);
         return true;
     }

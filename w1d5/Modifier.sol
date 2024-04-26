@@ -3,17 +3,17 @@
 pragma solidity >=0.6.12 <0.9.0;
 
 contract modifysample {
-    uint a = 10;
+    uint256 a = 10;
 
-    modifier mf1(uint b) {
-        uint c = b;
+    modifier mf1(uint256 b) {
+        uint256 c = b;
         _;
         c = a;
         a = 11;
     }
 
     modifier mf2() {
-        uint c = a;
+        uint256 c = a;
         _;
     }
 
@@ -28,7 +28,7 @@ contract modifysample {
         a = 1;
     }
 
-    function get_a() public view returns (uint) {
+    function get_a() public view returns (uint256) {
         return a;
     }
 }

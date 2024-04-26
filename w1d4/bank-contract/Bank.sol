@@ -23,12 +23,12 @@ contract Bank {
     }
 
     // 只有管理员可以取款
-    function adminWithdraw(uint amount) public onlyOwner {
+    function adminWithdraw(uint256 amount) public onlyOwner {
         require(address(this).balance >= amount, "Insufficient balance");
         payable(owner).transfer(amount);
     }
 
-    function userWithdraw(uint amount) public {
+    function userWithdraw(uint256 amount) public {
         require(balances[msg.sender] >= amount, "Insufficient balance");
         balances[msg.sender] -= amount;
         payable(msg.sender).transfer(amount);
@@ -52,18 +52,16 @@ contract Bank {
         if (balances[depositor] <= balances[topDepositors[2]]) {
             return;
         }
-        for (uint i = 0; i < 3; i++) {
+        for (uint256 i = 0; i < 3; i++) {
             if (topDepositors[i] == depositor) {
                 return;
             }
         }
         topDepositors[2] = depositor;
         bool swap = false;
-        for (uint i = 0; i < 3; i++) {
-            for (uint j = 1; j < 3 - i; j++) {
-                if (
-                    balances[topDepositors[j - 1]] < balances[topDepositors[j]]
-                ) {
+        for (uint256 i = 0; i < 3; i++) {
+            for (uint256 j = 1; j < 3 - i; j++) {
+                if (balances[topDepositors[j - 1]] < balances[topDepositors[j]]) {
                     address temp = topDepositors[j - 1];
                     topDepositors[j - 1] = topDepositors[j];
                     topDepositors[j] = temp;

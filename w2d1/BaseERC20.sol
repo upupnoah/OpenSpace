@@ -15,11 +15,7 @@ contract BaseERC20 {
     mapping(address => mapping(address => uint256)) allowances;
 
     event Transfer(address indexed from, address indexed to, uint256 value);
-    event Approval(
-        address indexed owner,
-        address indexed spender,
-        uint256 value
-    );
+    event Approval(address indexed owner, address indexed spender, uint256 value);
 
     constructor() {
         // write your code here
@@ -36,36 +32,20 @@ contract BaseERC20 {
         return balances[_owner];
     }
 
-    function transfer(
-        address _to,
-        uint256 _value
-    ) public returns (bool success) {
+    function transfer(address _to, uint256 _value) public returns (bool success) {
         // write your code here
-        require(
-            balances[msg.sender] >= _value,
-            "ERC20: transfer amount exceeds balance"
-        );
+        require(balances[msg.sender] >= _value, "ERC20: transfer amount exceeds balance");
         balances[msg.sender] -= _value;
         balances[_to] += _value;
         emit Transfer(msg.sender, _to, _value);
         return true;
     }
 
-    function transferFrom(
-        address _from,
-        address _to,
-        uint256 _value
-    ) public returns (bool success) {
+    function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {
         // write your code here
         uint256 allow_value = allowances[_from][msg.sender]; // _from 允许 msg.sender 转账的额度
-        require(
-            balances[_from] >= _value,
-            "ERC20: transfer amount exceeds balance"
-        );
-        require(
-            allow_value >= _value,
-            "ERC20: transfer amount exceeds allowance"
-        );
+        require(balances[_from] >= _value, "ERC20: transfer amount exceeds balance");
+        require(allow_value >= _value, "ERC20: transfer amount exceeds allowance");
         balances[_to] += _value;
         balances[_from] -= _value;
 
@@ -79,20 +59,14 @@ contract BaseERC20 {
         return true;
     }
 
-    function approve(
-        address _spender,
-        uint256 _value
-    ) public returns (bool success) {
+    function approve(address _spender, uint256 _value) public returns (bool success) {
         // write your code here
         allowances[msg.sender][_spender] = _value; // msg.sender 设置 _spender 的授权额度
         emit Approval(msg.sender, _spender, _value);
         return true;
     }
 
-    function allowance(
-        address _owner,
-        address _spender
-    ) public view returns (uint256 remaining) {
+    function allowance(address _owner, address _spender) public view returns (uint256 remaining) {
         // write your code here
         return allowances[_owner][_spender]; // _owner 授权了 _spender 的额度
     }
