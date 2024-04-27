@@ -41,13 +41,13 @@ contract NoahNFTMarketTest is Test {
         // token.mint(address(0xBEEF), 1000 * 10 ** 18);
     }
 
-    function testListNFT() public {
+    function testList() public {
         market.list(1, 500 * 10 ** 18);
         assertEq(market.tokenIdPrice(1), 500 * 10 ** 18);
         assertEq(market.tokenSeller(1), address(this));
     }
 
-    function testPurchaseNFT() public {
+    function testPurchase() public {
         // Setup listing first
         market.list(1, 500 * 10 ** 18);
 
@@ -65,5 +65,31 @@ contract NoahNFTMarketTest is Test {
         assertEq(token.balanceOf(address(this)), 500 * 10 ** 18);
     }
 
-    // Optional: You can write more tests to check for failures/reverts
+    // function testListWithoutApproval() public {
+    //     nft.revokeApproval(address(market), 1); // Revoke approval for the market
+    //     vm.expectRevert("ERC721: transfer caller is not owner nor approved");
+    //     market.list(1, 500 * 10 ** 18);
+    // }
+
+    function testPurchaseNonexistentNFT() public {
+        vm.expectRevert("aleady selled");
+        vm.prank(address(0xBEEF));
+        market.purchase(1);
+    }
+
+    function testPurchaseWithoutSufficientTokens() public {
+        // Setup listing first
+        market.list(1, 500 * 10 ** 18);
+
+        vm.prank(address(0xBEEF));
+        token.approve(address(market), 100 * 10 ** 18); // 授权代币数量不足
+
+        bytes memory revertData = abi.encodeWithSelector(
+            IERC20Errors.ERC20InsufficientAllowance.selector, address(market), 100 * 10 ** 18, 500 * 10 ** 18
+        );
+
+        vm.prank(address(0xBEEF));
+        vm.expectRevert(revertData);
+        market.purchase(1);
+    }
 }

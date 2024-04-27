@@ -6,8 +6,15 @@ import "../src/BaseERC20WithCallback.sol";
 
 // Mock TokenReceiver 合约, 用于测试
 contract MockTokenReceiver is ITokenReceiver {
-    function tokenReceived(address, address, uint256, bytes calldata) external pure returns (bool) {
-        return true; // 总是成功
+    bool public shouldFail;
+
+    function tokenReceived(address, address, uint256, bytes calldata) external view returns (bool) {
+        require(!shouldFail, "Simulated receiver failure");
+        return true; //
+    }
+
+    function setShouldFail(bool _shouldFail) public {
+        shouldFail = _shouldFail;
     }
 }
 
@@ -34,5 +41,12 @@ contract ERC20WithCallbackTest is Test {
         }
         bool success = token.transferWithCallback(address(receiver), values, abi.encode(data));
         assertTrue(success, "Transfer with callback should succeed");
+    }
+
+    function testTransferWithCallbackFails() public {
+        receiver.setShouldFail(true); // 设置 MockTokenReceiver 让 tokenReceived 失败
+        bytes memory data = "dummy data";
+        vm.expectRevert("Simulated receiver failure");
+        token.transferWithCallback(address(receiver), 50, abi.encode(data));
     }
 }

@@ -14,7 +14,6 @@ contract ERC20WithCallback is ERC20 {
     constructor() ERC20("MyERC20", "MyERC20") {
         _mint(msg.sender, 1000 * 10 ** 18);
     }
-
     // 转账时, 如果目标地址是合约(recipient), 则调用 tokensReceived 方法
     // 如果要转的地址不是合约地址, 可以在 token 部分传入 address(0)
     // 思考? 有没有更加优雅的方法
@@ -104,6 +103,7 @@ contract ERC20WithCallback is ERC20 {
     // 显式告诉用户, 这个方法是用来转账给合约的, 并且会调用 tokensReceived 方法
     // 对于购买 NFT, 无非就是需要一个 NFT 的 TokenID, 可以通过 _data 传入
     function transferWithCallback(address _to, uint256 _value, bytes calldata _data) public returns (bool success) {
+        // transfer 内部自己有emit Transfer, 所以不需要再次 emit
         transfer(_to, _value);
         if (isContract(_to)) {
             require(ITokenReceiver(_to).tokenReceived(msg.sender, _to, _value, _data), "No tokensReceived");

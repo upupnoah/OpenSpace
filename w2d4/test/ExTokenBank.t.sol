@@ -60,4 +60,16 @@ contract TokenTest is Test {
         // Check if the bank received the tokens via callback
         assertEq(bank.deposits(user, address(token)), amount);
     }
+
+    // Test revert
+    function testWithdrawMoreThanDeposit() public {
+        uint256 depositAmount = 10 * 10 ** 18;
+        uint256 withdrawAmount = 20 * 10 ** 18; // More than the deposit
+        vm.startPrank(user);
+        token.approve(address(bank), depositAmount);
+        bank.deposit(address(token), depositAmount);
+        vm.expectRevert("TokenBank: insufficient balance");
+        bank.withdraw(address(token), withdrawAmount);
+        vm.stopPrank();
+    }
 }

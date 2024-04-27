@@ -12,12 +12,38 @@ contract BankTest is Test {
     }
 
     function testDeposit() public {
-        // bank.depositETH{value: 100}();
-        // assertEq(bank.balanceOf(address(this)), 100);
         address payable addr = payable(address(0x1));
         deal(addr, 100);
         vm.prank(addr);
+
         bank.depositETH{value: 10}();
         assertEq(bank.balanceOf(addr), 10);
+    }
+
+    function testDepositEmitsEvent() public {
+        address payable addr = payable(address(0x1));
+        deal(addr, 100);
+
+        // Expect the Deposit event to be emitted with the correct parameters
+
+        // 第 0 个参数是 event 的名字
+        // 从第 1 个开始是我们的参数
+        // 测试 emit
+        uint256 depositAmount = 10;
+        vm.expectEmit(true, true, true, false);
+        emit Bank.Deposit(addr, depositAmount);
+        vm.prank(addr);
+        bank.depositETH{value: depositAmount}();
+
+        // Check balance after deposit
+        assertEq(bank.balanceOf(addr), depositAmount);
+    }
+
+    function testDepositRevertsWhenZero() public {
+        address payable addr = payable(address(0x1));
+        vm.deal(addr, 100 ether);
+        vm.prank(addr);
+        vm.expectRevert("Deposit amount must be greater than 0");
+        bank.depositETH{value: 0}();
     }
 }
