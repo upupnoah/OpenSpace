@@ -31,3 +31,7 @@
 - [x] 扩展挑战Token 购买 NFT 合约，能够使用ERC20扩展中的回调函数来购买某个 NFT ID
 
 ### w2d4
+- [x] 使用 forge 进行测试
+
+### w2d5
+- [x] 使用 forge 部署合约, 使用 cast 创建钱包
