@@ -3,8 +3,8 @@ pragma solidity ^0.8.25;
 
 import {Test, console} from "forge-std/Test.sol";
 import {NoahNFTMarket} from "../src/NoahNFTMarket.sol";
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import {ERC20, IERC20Errors} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 contract MockERC20 is ERC20 {
     constructor() ERC20("Mock Token", "MTK") {
@@ -87,7 +87,6 @@ contract NoahNFTMarketTest is Test {
         bytes memory revertData = abi.encodeWithSelector(
             IERC20Errors.ERC20InsufficientAllowance.selector, address(market), 100 * 10 ** 18, 500 * 10 ** 18
         );
-
         vm.prank(address(0xBEEF));
         vm.expectRevert(revertData);
         market.purchase(1);

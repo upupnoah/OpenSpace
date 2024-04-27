@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.25;
 
-import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Permit.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/interfaces/IERC1820Registry.sol";
+// import {IERC20Permit} from  "@openzeppelin/contracts/token/ERC20/extensions/IERC20Permit.sol";
+import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 // 扩展版本的 TokenBank, 使用 ERC20Callback 实现转账回调实现存款(直接记账, 而不需要先 Approve, 然后在 Bank 中调用 transferFrom)
 // 可以存我自己所有的 ERC20 Token

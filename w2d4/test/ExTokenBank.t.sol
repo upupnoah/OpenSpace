@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.25;
 
-import "forge-std/Test.sol";
-import "../src/ExTokenBank.sol";
-import "../src/BaseERC20WithCallback.sol";
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import {Test, console} from "forge-std/Test.sol";
+import {TokenBank} from "../src/ExTokenBank.sol";
+import {ERC20WithCallback} from "../src/BaseERC20WithCallback.sol";
+import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract TokenTest is Test {
     ERC20WithCallback token;

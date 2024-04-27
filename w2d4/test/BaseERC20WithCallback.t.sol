@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.25;
 
-import "forge-std/Test.sol";
-import "../src/BaseERC20WithCallback.sol";
+import {Test, console} from "forge-std/Test.sol";
+import {ERC20WithCallback, ITokenReceiver} from "../src/BaseERC20WithCallback.sol";
 
 // Mock TokenReceiver 合约, 用于测试
 contract MockTokenReceiver is ITokenReceiver {

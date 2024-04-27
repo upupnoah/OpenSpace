@@ -16,7 +16,7 @@ pragma solidity ^0.8.4;
 
 // 因此我直接用别人实现好的 -> OpenZeppelin
 // 在 Openzeppelin 5.x 中, Counter.sol 已经被移除(因为会给别人误导 以及 作用不大), 可以通过自定义 private 自增变量代替
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import {ERC721URIStorage, ERC721} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
 contract NoahNFT is ERC721URIStorage {
     uint256 private _tokenIds;

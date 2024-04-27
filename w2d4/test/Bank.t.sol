@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.25;
 
-import "forge-std/Test.sol";
-import "../src/Bank.sol";
+import {Test, console} from "forge-std/Test.sol";
+import {Bank} from "../src/Bank.sol";
 
 contract BankTest is Test {
     Bank bank;
@@ -31,7 +31,8 @@ contract BankTest is Test {
         // 测试 emit
         uint256 depositAmount = 10;
         // 最后一个是其他数据, 其他的除了第一个参数, 都是我的 indexed 参数
-        vm.expectEmit(true, false, false, true);
+        // vm.expectEmit(true, false, false, true);
+        vm.expectEmit(); // 最佳实践
         emit Bank.Deposit(addr, depositAmount);
         vm.prank(addr);
         bank.depositETH{value: depositAmount}();
