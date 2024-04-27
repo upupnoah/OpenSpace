@@ -26,7 +26,7 @@ contract TokenTest is Test {
         bank = new TokenBank();
     }
 
-    function testDeposit() public {
+    function test_Deposit() public {
         uint256 amount = 10 * 10 ** 18;
         vm.startPrank(user);
         token.approve(address(bank), amount);
@@ -37,7 +37,7 @@ contract TokenTest is Test {
         assertEq(bank.deposits(user, address(token)), amount);
     }
 
-    function testWithdraw() public {
+    function test_Withdraw() public {
         uint256 depositAmount = 10 * 10 ** 18;
         uint256 withdrawAmount = 5 * 10 ** 18;
         vm.startPrank(user);
@@ -50,7 +50,7 @@ contract TokenTest is Test {
         assertEq(bank.deposits(address(user), address(token)), depositAmount - withdrawAmount);
     }
 
-    function testTransferWithCallback() public {
+    function test_TransferWithCallback() public {
         uint256 amount = 1 * 10 ** 18;
 
         // User initiates transfer with callback to the bank
@@ -62,7 +62,7 @@ contract TokenTest is Test {
     }
 
     // Test revert
-    function testWithdrawMoreThanDeposit() public {
+    function test_WithdrawMoreThanDeposit() public {
         uint256 depositAmount = 10 * 10 ** 18;
         uint256 withdrawAmount = 20 * 10 ** 18; // More than the deposit
         vm.startPrank(user);

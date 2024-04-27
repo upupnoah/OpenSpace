@@ -28,14 +28,14 @@ contract ERC20WithCallbackTest is Test {
         token.transfer(address(receiver), 100 * 10 ** 18); // 给 receiver 一些代币以便测试
     }
 
-    function testTransferWithCallback() public {
+    function test_TransferWithCallback() public {
         bytes memory data = "dummy data";
         bool success = token.transferWithCallback(address(receiver), 50, abi.encode(data));
         assertTrue(success, "Transfer with callback should succeed");
     }
 
     // fuzz test
-    function testTransferWithCallback(uint256 values, bytes memory data) public {
+    function test_TransferWithCallback(uint256 values, bytes memory data) public {
         if (values > 10 ** 18 * 100) {
             values = 10 ** 18 * 100;
         }
@@ -43,7 +43,7 @@ contract ERC20WithCallbackTest is Test {
         assertTrue(success, "Transfer with callback should succeed");
     }
 
-    function testTransferWithCallbackFails() public {
+    function test_TransferWithCallbackFails() public {
         receiver.setShouldFail(true); // 设置 MockTokenReceiver 让 tokenReceived 失败
         bytes memory data = "dummy data";
         vm.expectRevert("Simulated receiver failure");

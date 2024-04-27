@@ -11,7 +11,7 @@ contract BankTest is Test {
         bank = new Bank();
     }
 
-    function testDeposit() public {
+    function test_Deposit() public {
         address payable addr = payable(address(0x1));
         deal(addr, 100);
         vm.prank(addr);
@@ -20,7 +20,7 @@ contract BankTest is Test {
         assertEq(bank.balanceOf(addr), 10);
     }
 
-    function testDepositEmitsEvent() public {
+    function test_DepositEmitsEvent() public {
         address payable addr = payable(address(0x1));
         deal(addr, 100);
 
@@ -41,7 +41,7 @@ contract BankTest is Test {
         assertEq(bank.balanceOf(addr), depositAmount);
     }
 
-    function testDepositRevertsWhenZero() public {
+    function test_DepositRevertsWhenZero() public {
         address payable addr = payable(address(0x1));
         vm.deal(addr, 100 ether);
         vm.prank(addr);

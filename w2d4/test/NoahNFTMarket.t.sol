@@ -41,13 +41,13 @@ contract NoahNFTMarketTest is Test {
         // token.mint(address(0xBEEF), 1000 * 10 ** 18);
     }
 
-    function testList() public {
+    function test_List() public {
         market.list(1, 500 * 10 ** 18);
         assertEq(market.tokenIdPrice(1), 500 * 10 ** 18);
         assertEq(market.tokenSeller(1), address(this));
     }
 
-    function testPurchase() public {
+    function test_Purchase() public {
         // Setup listing first
         market.list(1, 500 * 10 ** 18);
 
@@ -71,13 +71,13 @@ contract NoahNFTMarketTest is Test {
     //     market.list(1, 500 * 10 ** 18);
     // }
 
-    function testPurchaseNonexistentNFT() public {
+    function test_PurchaseNonexistentNFT() public {
         vm.expectRevert("aleady selled");
         vm.prank(address(0xBEEF));
         market.purchase(1);
     }
 
-    function testPurchaseWithoutSufficientTokens() public {
+    function test_PurchaseWithoutSufficientTokens() public {
         // Setup listing first
         market.list(1, 500 * 10 ** 18);
 

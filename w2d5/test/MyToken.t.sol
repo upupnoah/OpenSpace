@@ -12,7 +12,7 @@ contract MyTokenTest is Test {
     }
 
     // test constructor
-    function testConstructor() public view {
+    function test_Constructor() public view {
         assertEq(token.name(), "MyToken");
         assertEq(token.symbol(), "MT");
         assertEq(token.totalSupply(), 1e10 * 1e18);
