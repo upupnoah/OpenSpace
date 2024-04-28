@@ -10,3 +10,9 @@
 [submodule "w2d5/lib/openzeppelin-contracts"]
 	path = w2d5/lib/openzeppelin-contracts
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "w2d7/openspace-nftrent-study/contracts/lib/forge-std"]
+	path = w2d7/openspace-nftrent-study/contracts/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "w2d7/openspace-nftrent-study/contracts/lib/openzeppelin-contracts"]
+	path = w2d7/openspace-nftrent-study/contracts/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
