@@ -17,5 +17,5 @@ Cargo.lock
 draft.rs
 __pycache__
 .DS_Store
-.vscode
+.vscode/
 node_modules
