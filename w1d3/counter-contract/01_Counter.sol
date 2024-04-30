@@ -9,17 +9,26 @@ pragma solidity ^0.8.4;
 
 // function <function name>(<parameter types>) {internal|external|public|private} [pure|view|payable] [returns (<return types>)]
 
+/// @title A simple counter contract
+/// @dev This contract allows you to increment and retrieve the value of a counter
 contract Counter {
-    uint256 public counter = 0;
+    /// @notice The current value of the counter
+    uint256 public counter;
 
+    /// @notice Constructor sets the initial counter to 0
     constructor() {
         counter = 0;
     }
 
+    /// @notice Adds the value `x` to the counter
+    /// @dev This function modifies the `counter` storage variable directly
+    /// @param x The value to add to the counter
     function add(uint256 x) public {
         counter += x;
     }
 
+    /// @notice Retrieves the current value of the counter
+    /// @return The current value of the counter
     function get() public view returns (uint256) {
         return counter;
     }
