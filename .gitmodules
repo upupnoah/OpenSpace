@@ -16,3 +16,9 @@
 [submodule "w2d7/openspace-nftrent-study/contracts/lib/openzeppelin-contracts"]
 	path = w2d7/openspace-nftrent-study/contracts/lib/openzeppelin-contracts
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "w3d4/lib/forge-std"]
+	path = w3d4/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "w3d4/lib/openzeppelin-contracts"]
+	path = w3d4/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
