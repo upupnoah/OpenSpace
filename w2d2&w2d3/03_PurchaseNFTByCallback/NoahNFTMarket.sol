@@ -18,7 +18,7 @@ contract NoahNFTMarket is IERC721Receiver, ITokenReceiver {
     address public immutable nftToken;
 
     event List(uint256 indexed tokenId, uint256 price);
-    event Purchase(uint256 indexed tokenId, address buyer);
+    event BuyNFT(uint256 indexed tokenId, address buyer, uint256 amount);
     event Sale(uint256 indexed tokenId, address seller);
 
     // 在部署合约的时候将 token合约地址 和 nftToken地址 传入
@@ -35,15 +35,17 @@ contract NoahNFTMarket is IERC721Receiver, ITokenReceiver {
         emit List(tokenID, amount);
     }
 
-    function purchase(uint256 tokenId) external {
+    function buyNFT(uint256 tokenId, uint256 amount) external {
         require(IERC721(nftToken).ownerOf(tokenId) == address(this), "aleady selled");
-
+        require(tokenSeller[tokenId] != address(0), "not list");
+        require(amount >= tokenIdPrice[tokenId], "amount less than price");
         // 从 msg.sender 搞钱 给 tokenSeller[tokenId] (卖家)
         IERC20(token).transferFrom(msg.sender, tokenSeller[tokenId], tokenIdPrice[tokenId]);
         // 从我(当前合约) 这里搞 NFT Token(by tokenID) 给 msg.sender
         IERC721(nftToken).safeTransferFrom(address(this), msg.sender, tokenId);
-
-        emit Purchase(tokenId, msg.sender);
+        delete tokenSeller[tokenId];
+        delete tokenIdPrice[tokenId];
+        emit BuyNFT(tokenId, msg.sender, amount);
     }
 
     // 实现{IERC721Receiver}的onERC721Received，能够接收ERC721代币(NFT)
