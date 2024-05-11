@@ -11,6 +11,7 @@ contract DeployNoahNFTMarketUUPSScript is Script {
     function setUp() public {}
 
     function run() public returns (address) {
+        vm.startBroadcast();
         // 部署ERC20和ERC721依赖合约
         MyERC20 erc20 = new MyERC20();
         MyERC721 erc721 = new MyERC721();
@@ -20,6 +21,7 @@ contract DeployNoahNFTMarketUUPSScript is Script {
 
         // 使用Upgrades库部署UUPS代理
         address proxy = Upgrades.deployUUPSProxy("NoahNFTMarketUpgradableV1.sol:NoahNFTMarket", initData);
+        vm.stopBroadcast();
 
         // 输出部署的代理地址
         console.log("Deployed NoahNFTMarket UUPS Proxy at:", proxy);

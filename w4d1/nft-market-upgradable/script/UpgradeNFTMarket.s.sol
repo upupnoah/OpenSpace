@@ -10,12 +10,13 @@ contract UpgradeNFTMarketScript is Script {
     function setUp() public {}
 
     function run() public {
-        address rencentDeployedProxy = 0xd85BdcdaE4db1FAEB8eF93331525FE68D7C8B3f0; // Replace with your nftmarket proxy address
+        address rencentDeployedProxy = 0x783fB00dda92d78A677d3b64254EcC08cC33FA17; // Replace with your nftmarket proxy address
         vm.startBroadcast();
         // 升级代理合约
         Upgrades.upgradeProxy(rencentDeployedProxy, "NoahNFTMarketUpgradableV2.sol:NoahNFTMarketV2", "");
         // Log the proxy address
-        console.log("UUPS Proxy Address:", address(rencentDeployedProxy));
+        console.log("Transport Proxy Address:", address(rencentDeployedProxy));
+        // console.log("UUPS Proxy Address:", address(rencentDeployedProxy));
         vm.stopBroadcast();
     }
 }

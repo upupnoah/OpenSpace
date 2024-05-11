@@ -9,9 +9,13 @@ import {MyERC721} from "../src/MyERC721.sol";
 
 contract DeployNoahNFTMarketScript is Script {
     // 因为是透明代理, 因此需要一个管理员地址
-    address immutable INITIAL_OWNER_ADDRESS_FOR_PROXY_ADMIN = msg.sender; // proxy管理员地址
+    address immutable INITIAL_OWNER_ADDRESS_FOR_PROXY_ADMIN = 0x3Dc121cA82697cB8C2C9D2b151bB6002316eC5A9;
+
+    function setUp() public {}
 
     function run() public returns (address) {
+        console.log("INITIAL_OWNER_ADDRESS_FOR_PROXY_ADMIN:", INITIAL_OWNER_ADDRESS_FOR_PROXY_ADMIN);
+        vm.startBroadcast();
         // 部署 ERC20 和 ERC721 依赖合约
         MyERC20 erc20 = new MyERC20();
         MyERC721 erc721 = new MyERC721();
@@ -25,11 +29,11 @@ contract DeployNoahNFTMarketScript is Script {
             "NoahNFTMarketUpgradableV1.sol:NoahNFTMarket", INITIAL_OWNER_ADDRESS_FOR_PROXY_ADMIN, initData
         );
 
+        vm.stopBroadcast();
         // 输出部署的代理地址
         console.log("Deployed NoahNFTMarket Proxy at:", proxy);
-
         return proxy;
     }
 }
 
-// TransportProxyAddr: 0xd85BdcdaE4db1FAEB8eF93331525FE68D7C8B3f0
+// TransportProxyAddr: 0x783fB00dda92d78A677d3b64254EcC08cC33FA17
