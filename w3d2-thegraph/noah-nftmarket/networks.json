@@ -1,6 +1,6 @@
 {
   "sepolia": {
-    "noah-nft-market": {
+    "Contract": {
       "address": "0x9e72881669c7b39d4283B3ce11922C248B2c5755",
       "startBlock": 5766033
     }

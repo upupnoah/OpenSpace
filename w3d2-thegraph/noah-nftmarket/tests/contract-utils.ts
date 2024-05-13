@@ -4,7 +4,7 @@ import {
   NFTCreated,
   NFTRegesitered,
   OwnershipTransferred
-} from "../generated/noah-nft-market/noah-nft-market"
+} from "../generated/Contract/Contract"
 
 export function createNFTCreatedEvent(nftCA: Address): NFTCreated {
   let nftCreatedEvent = changetype<NFTCreated>(newMockEvent())

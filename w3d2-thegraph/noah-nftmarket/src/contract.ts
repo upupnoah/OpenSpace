@@ -2,7 +2,7 @@ import {
   NFTCreated as NFTCreatedEvent,
   NFTRegesitered as NFTRegesiteredEvent,
   OwnershipTransferred as OwnershipTransferredEvent
-} from "../generated/noah-nft-market/noah-nft-market"
+} from "../generated/Contract/Contract"
 import {
   NFTCreated,
   NFTRegesitered,
