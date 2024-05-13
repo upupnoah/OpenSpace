@@ -46,3 +46,9 @@
 [submodule "w3d2-thegraph/lib/openzeppelin-contracts"]
 	path = w3d2-thegraph/lib/openzeppelin-contracts
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "noah-temp/lib/forge-std"]
+	path = noah-temp/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "noah-temp/lib/openzeppelin-contracts"]
+	path = noah-temp/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts

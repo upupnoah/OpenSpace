@@ -6,18 +6,30 @@ type NFTCreated @entity(immutable: true) {
   transactionHash: Bytes!
 }
 
-type NFTRegesitered @entity(immutable: true) {
-  id: Bytes!
-  nftCA: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
+# type NFTRegesitered @entity(immutable: true) {
+#   id: Bytes!
+#   nftCA: Bytes! # address
+#   blockNumber: BigInt!
+#   blockTimestamp: BigInt!
+#   transactionHash: Bytes!
+# }
 
-type OwnershipTransferred @entity(immutable: true) {
-  id: Bytes!
-  previousOwner: Bytes! # address
-  newOwner: Bytes! # address
+# type OwnershipTransferred @entity(immutable: true) {
+#   id: Bytes!
+#   previousOwner: Bytes! # address
+#   newOwner: Bytes! # address
+#   blockNumber: BigInt!
+#   blockTimestamp: BigInt!
+#   transactionHash: Bytes!
+# }
+
+type TokenInfo @entity {
+  id: ID!
+  ca: Bytes! # address
+  tokenId: BigInt! # uint256
+  tokenURL: String!
+  name: String!
+  owner: Bytes! # address
   blockNumber: BigInt!
   blockTimestamp: BigInt!
   transactionHash: Bytes!
