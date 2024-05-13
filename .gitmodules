@@ -40,3 +40,9 @@
 [submodule "w4d1/nft-market-upgradable/lib/openzeppelin-foundry-upgrades"]
 	path = w4d1/nft-market-upgradable/lib/openzeppelin-foundry-upgrades
 	url = https://github.com/OpenZeppelin/openzeppelin-foundry-upgrades
+[submodule "w3d2-thegraph/lib/forge-std"]
+	path = w3d2-thegraph/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "w3d2-thegraph/lib/openzeppelin-contracts"]
+	path = w3d2-thegraph/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts

@@ -1,0 +1,32 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: noah-nft-market
+    network: sepolia
+    source:
+      address: "0x9e72881669c7b39d4283B3ce11922C248B2c5755"
+      abi: noah-nft-market
+      startBlock: 5766033
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - NFTCreated
+        - NFTRegesitered
+        - OwnershipTransferred
+      abis:
+        - name: noah-nft-market
+          file: ./abis/noah-nft-market.json
+      eventHandlers:
+        - event: NFTCreated(address)
+          handler: handleNFTCreated
+        - event: NFTRegesitered(address)
+          handler: handleNFTRegesitered
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+      file: ./src/noah-nft-market.ts
