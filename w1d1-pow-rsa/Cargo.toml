@@ -1,5 +1,5 @@
 [package]
-name = "w1d1"
+name = "w1d1-pow-rsa"
 version = "0.1.0"
 edition = "2021"
 
