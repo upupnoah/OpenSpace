@@ -70,3 +70,9 @@
 [submodule "w2d7-nftrent-web/openspace-nftrent-study/contracts/lib/forge-std"]
 	path = w2d7-nftrent-web/openspace-nftrent-study/contracts/lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
+[submodule "w4d4-IDO&Stake/lib/forge-std"]
+	path = w4d4-IDO&Stake/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "w4d4-IDO&Stake/lib/openzeppelin-contracts"]
+	path = w4d4-IDO&Stake/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
