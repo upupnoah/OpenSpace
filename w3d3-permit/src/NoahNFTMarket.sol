@@ -7,6 +7,7 @@ import {IERC721Receiver} from "@openzeppelin/contracts/token/ERC721/IERC721Recei
 import {Nonces} from "@openzeppelin/contracts/utils/Nonces.sol";
 import {ECDSA} from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import {MessageHashUtils} from "@openzeppelin/contracts/utils/cryptography/MessageHashUtils.sol";
+import {MyERC20Permit} from "./MyERC20Permit.sol";
 
 contract NoahNFTMarket is IERC721Receiver, Nonces {
     using ECDSA for bytes32;
@@ -16,7 +17,7 @@ contract NoahNFTMarket is IERC721Receiver, Nonces {
     mapping(uint256 => address) public tokenSeller;
     mapping(address => bool) public whitelist;
 
-    address public immutable token;
+    MyERC20Permit public immutable myERC20PermitToken;
     address public immutable nftToken;
     address public immutable owner;
 
@@ -30,7 +31,7 @@ contract NoahNFTMarket is IERC721Receiver, Nonces {
 
     // 在部署合约的时候将 token合约地址 和 nftToken地址 传入
     constructor(address _token, address _nftToken) {
-        token = _token;
+        myERC20PermitToken = MyERC20Permit(_token);
         nftToken = _nftToken;
         owner = msg.sender;
         whitelist[msg.sender] = true;
@@ -46,12 +47,21 @@ contract NoahNFTMarket is IERC721Receiver, Nonces {
 
     // 只有白名单的用户可以购买, 因此将此函数改为 internal, 在判断在白名单之后再调用
     function buyNFT(uint256 tokenId, uint256 amount) internal {
-        require(IERC721(nftToken).ownerOf(tokenId) == address(this), "aleady selled");
-        require(tokenSeller[tokenId] != address(0), "not list");
+        // require(IERC721(nftToken).ownerOf(tokenId) == address(this), "aleady selled");
+        // require(tokenSeller[tokenId] != address(0), "not list");
+        // require(amount >= tokenIdPrice[tokenId], "amount less than price");
+        // // 从 msg.sender 搞钱 给 tokenSeller[tokenId] (卖家)
+        // IERC20(token).transferFrom(msg.sender, tokenSeller[tokenId], tokenIdPrice[tokenId]);
+        // // 从我(当前合约) 这里搞 NFT Token(by tokenID) 给 msg.sender
+        // IERC721(nftToken).safeTransferFrom(address(this), msg.sender, tokenId);
+        // delete tokenSeller[tokenId];
+        // delete tokenIdPrice[tokenId];
+        // emit BuyNFT(tokenId, msg.sender, amount);
+        require(IERC721(nftToken).ownerOf(tokenId) == address(this), "already sold");
+        require(tokenSeller[tokenId] != address(0), "not listed");
         require(amount >= tokenIdPrice[tokenId], "amount less than price");
-        // 从 msg.sender 搞钱 给 tokenSeller[tokenId] (卖家)
-        IERC20(token).transferFrom(msg.sender, tokenSeller[tokenId], tokenIdPrice[tokenId]);
-        // 从我(当前合约) 这里搞 NFT Token(by tokenID) 给 msg.sender
+
+        myERC20PermitToken.transferFrom(msg.sender, tokenSeller[tokenId], tokenIdPrice[tokenId]);
         IERC721(nftToken).safeTransferFrom(address(this), msg.sender, tokenId);
         delete tokenSeller[tokenId];
         delete tokenIdPrice[tokenId];
@@ -70,14 +80,20 @@ contract NoahNFTMarket is IERC721Receiver, Nonces {
         whitelist[addr] = true;
     }
 
-    function permitBuy(uint256 nonce, bytes calldata signature, uint256 tokenId, uint256 amount) public {
-        _useCheckedNonce(msg.sender, nonce);
-        bytes32 hash = keccak256(abi.encodePacked(msg.sender, nonce));
-        hash = hash.toEthSignedMessageHash();
-        address signAddr = hash.recover(signature);
-        require(whitelist[signAddr], "not in whitelist");
-        _useNonce(msg.sender);
+    function permitBuy(uint256 tokenId, uint256 amount, uint256 deadline, uint8 v, bytes32 r, bytes32 s) public {
+        // _useCheckedNonce(msg.sender, nonce);
+        // bytes32 hash = keccak256(abi.encodePacked(msg.sender, nonce));
+        // hash = hash.toEthSignedMessageHash();
+        // address signAddr = hash.recover(signature);
+        // require(whitelist[signAddr], "not in whitelist");
+        // _useNonce(msg.sender);
+        // buyNFT(tokenId, amount);
 
+        // First, we use the permit function to approve the token transfer
+        // permit 之后, 里面会执行 approve msg.sender -> address(this) amount 额度的 allowance
+        myERC20PermitToken.permit(msg.sender, address(this), amount, deadline, v, r, s);
+
+        // After the permit is successful, we proceed to buy the NFT
         buyNFT(tokenId, amount);
     }
 }

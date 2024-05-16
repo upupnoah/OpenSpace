@@ -20,3 +20,4 @@ __pycache__
 .vscode/
 node_modules
 .env
+noah-temp/
