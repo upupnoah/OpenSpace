@@ -42,26 +42,17 @@ contract RNTStakeTest is Test {
         vm.expectEmit(true, true, true, true);
         emit RNTStake.Stake(user, amount);
         rntStake.stake(amount);
-
-        // 检查质押后的状态
-        // (uint256 stakedAmount,,) = rntStake.stakes(alice);
-        // assertEq(stakedAmount, amount, "Staked amount mismatch");
-
-        // // 检查合约内的RNT余额
-        // assertEq(rntToken.balanceOf(address(rntStake)), amount, "Contract RNT balance mismatch");
         vm.stopPrank();
     }
 
-    // function testUnstake() public {
-    //     // 先质押一些代币
-    //     testStake();
-    //     uint256 unstakeAmount = 50 ether;
-    //     rntStake.unstake(unstakeAmount);
-
-    //     // 检查解押后的状态
-    //     (uint256 remainingStaked,,) = rntStake.stakes(alice);
-    //     assertEq(remainingStaked, 50 ether, "Remaining staked amount mismatch");
-    // }
+    function testUnstake() public {
+        vm.startPrank(user);
+        // 先质押一些代币
+        testStake();
+        uint256 unstakeAmount = 50 ether;
+        rntStake.unstake(unstakeAmount);
+        vm.stopPrank();
+    }
 
     // function testClaimRewards() public {
     //     // 先质押一些代币并触发一些奖励
