@@ -8,14 +8,14 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import {Multicall} from "@openzeppelin/contracts/utils/Multicall.sol";
 
-// 实现 AirdopMerkleNFTMarket 合约(假定 Token、NFT、AirdopMerkleNFTMarket 都是同一个开发者开发)，功能如下：
+// 实现 AirdropMerkleNFTMarket 合约(假定 Token、NFT、AirdropMerkleNFTMarket 都是同一个开发者开发)，功能如下：
 // - 基于 Merkel 树验证某用户是否在白名单中
 // - 在白名单中的用户可以使用上架（和之前的上架逻辑一致）指定价格的优惠 50% 的Token 来购买 NFT， Token 需支持 permit 授权。
 // 要求使用 multicall( delegateCall 方式) 一次性调用两个方法：
 // - permitPrePay() : 调用token的 permit 进行授权
 // - claimNFT() : 通过默克尔树验证白名单，并利用 permitPrePay 的授权，转入 token 转出 NFT
-contract AirdopMerkleNFTMarket is IERC721Receiver {
-    event AirdopMerkleNFTMarketClaimed(address indexed user);
+contract AirdropMerkleNFTMarket is IERC721Receiver {
+    event AirdropMerkleNFTMarketClaimed(address indexed user);
 
     bytes32 public merkleRoot;
     address public token; // erc20 地址
@@ -49,12 +49,12 @@ contract AirdopMerkleNFTMarket is IERC721Receiver {
         // -> leaf 的兄弟 以及 "父节点" 的 hash 值, 以及他的兄弟, 直到兄弟为另一个分叉上的根节点的 儿子
 
         bytes32 leaf = keccak256(abi.encodePacked(msg.sender));
-        require(MerkleProof.verify(merkleProof, merkleRoot, leaf), "AirdopMerkleNFTMarket: Invalid proof");
+        require(MerkleProof.verify(merkleProof, merkleRoot, leaf), "AirdropMerkleNFTMarket: Invalid proof");
 
         IERC20(token).transfer(tokenId2Seller[tokenId], tokenId2Price[tokenId] / 2);
         IERC721(nft).transferFrom(address(this), msg.sender, tokenId);
 
-        emit AirdopMerkleNFTMarketClaimed(msg.sender);
+        emit AirdropMerkleNFTMarketClaimed(msg.sender);
         return true;
     }
 
@@ -70,7 +70,7 @@ contract AirdopMerkleNFTMarket is IERC721Receiver {
         for (uint256 i = 0; i < data.length; i++) {
             (bool success, bytes memory result) = address(this).delegatecall(data[i]);
             results[i] = result;
-            require(success, "AirdopMerkleNFTMarket: multicall failed");
+            require(success, "AirdropMerkleNFTMarket: multicall failed");
         }
         return results;
     }

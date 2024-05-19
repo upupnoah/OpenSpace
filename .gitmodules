@@ -82,3 +82,6 @@
 [submodule "w4d5/lib/openzeppelin-contracts"]
 	path = w4d5/lib/openzeppelin-contracts
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "w5d1-slot&assembly/lib/forge-std"]
+	path = w5d1-slot&assembly/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
