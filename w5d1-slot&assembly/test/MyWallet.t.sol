@@ -4,7 +4,6 @@ pragma solidity ^0.8.25;
 import {Test, console} from "forge-std/Test.sol";
 import {MyWallet} from "../src/MyWallet.sol";
 
-
 contract MyWalletTest is Test {
     MyWallet wallet;
     address owner = address(0x123);
@@ -15,7 +14,7 @@ contract MyWalletTest is Test {
         wallet = new MyWallet("Test Wallet");
     }
 
-    function testInitialOwnerAndName() public {
+    function testInitialOwnerAndName() public view {
         assertEq(wallet.name(), "Test Wallet");
         assertEq(wallet.getOwner(), owner);
     }
