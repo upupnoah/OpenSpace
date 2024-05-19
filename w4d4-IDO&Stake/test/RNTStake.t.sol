@@ -46,10 +46,10 @@ contract RNTStakeTest is Test {
     }
 
     function testUnstake() public {
-        vm.startPrank(user);
         // 先质押一些代币
         testStake();
-        uint256 unstakeAmount = 50 ether;
+        uint256 unstakeAmount = 50;
+        vm.startPrank(user);
         rntStake.unstake(unstakeAmount);
         vm.stopPrank();
     }

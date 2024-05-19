@@ -3,6 +3,7 @@ pragma solidity ^0.8.25;
 
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {NoahERC20} from "./NoahERC20.sol";
+import {Address} from "@openzeppelin/contracts/utils/Address.sol";
 
 // 操作流程
 // 1. 在 startPresale 之前, 需要先给 IDO 打 预期数量的 Token
@@ -65,6 +66,8 @@ contract IDO {
     // uint256 userCnt; // 用户数量
     mapping(address user => uint256 tokenAmount) public userTokenAmount;
     mapping(address user => bool claimed) public userClaimed;
+
+    using Address for address payable;
 
     event PresaleStarted(
         address indexed owner,
@@ -162,9 +165,10 @@ contract IDO {
     // 这里的逻辑是只有募资失败
     function refund() external presaleMustStart presaleMustEnd softCapNotReached userHasToken {
         // refund to user
-        payable(msg.sender).transfer(userTokenAmount[msg.sender] * price);
         totalAmountRaised -= userTokenAmount[msg.sender] * price;
         totalTokenSaled -= userTokenAmount[msg.sender];
+        payable(msg.sender).sendValue(userTokenAmount[msg.sender] * price);
+        // payable(msg.sender).transfer(userTokenAmount[msg.sender] * price);
 
         emit Refund(msg.sender, userTokenAmount[msg.sender]);
         delete userTokenAmount[msg.sender]; // Clear the number of tokens purchased by the user
@@ -176,7 +180,8 @@ contract IDO {
         // 按比例退超募的钱
         if (totalAmountRaised > softCap) {
             uint256 refundAmount = (totalAmountRaised - softCap) * (userTokenAmount[msg.sender] / totalTokenSaled);
-            payable(msg.sender).transfer(refundAmount);
+            // payable(msg.sender).transfer(refundAmount);
+            payable(msg.sender).sendValue(refundAmount);
         }
         emit Claim(msg.sender, userTokenAmount[msg.sender]);
         userClaimed[msg.sender] = true;
@@ -185,7 +190,8 @@ contract IDO {
 
     function withdraw() external ownerOnly presaleMustStart presaleMustEnd softCapReached {
         uint256 amount = address(this).balance;
-        payable(owner).transfer(address(this).balance);
+        // payable(owner).transfer(address(this).balance);
+        payable(owner).sendValue(amount);
         emit Withdraw(owner, amount);
     }
 }
