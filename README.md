@@ -35,3 +35,40 @@
 
 ### w2d5
 - [x] 使用 forge 部署合约, 使用 cast 创建钱包
+
+### w2d7
+- [x] NFT rent web
+- [x] 使用 viem & wagmi & web3model
+
+### w3d1
+- [x] viem
+
+### w3d2
+- [x] thegraph
+
+### w3d3
+- [x] permit
+
+### w3d4
+- [x] MPC
+
+### w4d1
+- [x] w4d1
+
+### w4d3
+- [x] offline-signature-dapp-skip
+
+### w4d4
+- [x] IDO&Stake
+
+### w4d5
+- [x] w4d5
+
+### w4d6
+- [x] dune
+
+### w5d1
+- [x] slot&assembly
+
+### w5d5
+- [x] 
