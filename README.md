@@ -71,4 +71,4 @@
 - [x] slot&assembly
 
 ### w5d5
-- [x] 
+- [x] safe wallet
