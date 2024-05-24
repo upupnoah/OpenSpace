@@ -100,3 +100,6 @@
 [submodule "w5d2-dex/lib/v2-periphery"]
 	path = w5d2-dex/lib/v2-periphery
 	url = https://github.com/@uniswap/v2-periphery
+[submodule "w6d5/morph/lib/forge-std"]
+	path = w6d5/morph/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
