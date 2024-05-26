@@ -103,3 +103,12 @@
 [submodule "w6d5/morph/lib/forge-std"]
 	path = w6d5/morph/lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
+[submodule "w6d6/lib/forge-std"]
+	path = w6d6/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "w6d6/chainlink/lib/forge-std"]
+	path = w6d6/chainlink/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "w6d6/chainlink/lib/chainlink"]
+	path = w6d6/chainlink/lib/chainlink
+	url = https://github.com/smartcontractkit/chainlink
