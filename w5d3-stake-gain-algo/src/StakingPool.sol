@@ -100,9 +100,7 @@ contract StakingPool is IStaking {
         _updateReward();
         _updateUserReward(stk);
         uint256 reward = stk.accumulatedUserRewards;
-        if (reward == 0) {
-            return;
-        }
+        require(reward > 0, "no reward");
         stk.accumulatedUserRewards = 0;
         kkToken.mint(msg.sender, reward);
         emit Claim(msg.sender, reward);
