@@ -112,3 +112,9 @@
 [submodule "w6d6/chainlink/lib/chainlink"]
 	path = w6d6/chainlink/lib/chainlink
 	url = https://github.com/smartcontractkit/chainlink
+[submodule "w5d3-stake-gain-algo/lib/forge-std"]
+	path = w5d3-stake-gain-algo/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "w5d3-stake-gain-algo/lib/openzeppelin-contracts"]
+	path = w5d3-stake-gain-algo/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
