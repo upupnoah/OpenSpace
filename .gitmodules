@@ -118,3 +118,9 @@
 [submodule "w5d3-stake-gain-algo/lib/openzeppelin-contracts"]
 	path = w5d3-stake-gain-algo/lib/openzeppelin-contracts
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "solidity-advance/lib/forge-std"]
+	path = solidity-advance/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "solidity-advance/lib/openzeppelin-contracts"]
+	path = solidity-advance/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
